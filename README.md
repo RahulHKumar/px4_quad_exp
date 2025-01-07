@@ -43,9 +43,9 @@ Environmental Setup for Quadrotors Using PX4, ROS2 Humble, NvBlox, and VICON MoC
         sudo apt-get install openssh-server
         sudo ufw allow 22
         ```
-       Check if the above commands worked by doing:
-       ```bash
-       ssh ubuntu@192.168.x.x
-       ```
+          Check if the above commands worked by doing:
+          ```bash
+          ssh ubuntu@192.168.x.x
+          ```
      7. Now, connect the Orin to an host computer with SDK manager again using an ethernet cable (Note that the board will not be discovered. Ignore that)
      8. Proceed to install Jetson Runtime components and Jetson SDK components for Jetpack 6.0 (IMPORTANT: Do not install Jetson Linux again)
