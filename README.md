@@ -49,4 +49,16 @@ Environmental Setup for Quadrotors Using PX4, ROS2 Humble, NvBlox, and VICON MoC
           ```
      7. Now, connect the Orin to an host computer with SDK manager again using an ethernet cable (Note that the board will not be discovered. Ignore that)
      8. Proceed to install Jetson Runtime components and Jetson SDK components for Jetpack 6.0 using the new IP, 192.168.x.x (IMPORTANT: Do not install Jetson Linux again)
-     9. (WORKING ON SOLVING THE USB A issue. Then I will start the env setup)
+     9. If USB A is not working, follow the following link: https://wiki.seeedstudio.com/reComputer_A603_Flash_System/ to redo the whole board setup (steps 1-6) and then do step 7 after setting up static IP.
+    
+3. **Environment Setup**
+   - After completing the Orin setup, run the following command and reboot:
+     ```bash
+     sudo usermod -aG docker $USER
+     ```
+   - Then follow the 5 links given below in the right order:
+     1. https://nvidia-isaac-ros.github.io/getting_started/dev_env_setup.html
+     2. https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/jetson_vpi.html
+     3. https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/sensors/realsense_setup.html
+     4. https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/isaac_ros_nvblox/index.html#set-up-development-environment
+     5. https://nvidia-isaac-ros.github.io/concepts/scene_reconstruction/nvblox/tutorials/tutorial_realsense.html
