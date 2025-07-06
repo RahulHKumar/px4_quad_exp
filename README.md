@@ -79,4 +79,9 @@ Environmental Setup for Quadrotors Using PX4, ROS2 Humble, NvBlox, and VICON MoC
   4. https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/isaac_ros_nvblox/index.html#set-up-development-environment
   5. https://nvidia-isaac-ros.github.io/concepts/scene_reconstruction/nvblox/tutorials/tutorial_realsense.html
 - Follow [step 8 and 9](https://github.com/tkkim-robot/px4_ugv_exp/tree/main) from our PX4 UGV experiment documentation to modify the ```run_dev.sh``` and ```workspace-entrypoint.sh``` files amongst others in order to enable custom developement, so that we can add our dasc repositories to the docker.
+- Additionally, you may have to add the following line to ```run_dev.sh``` if you encounter any error while first building the container:
+  ```
+  RUN python3 -m pip install --upgrade \
+        "packaging>=24"
+  ```
 - Follow the [DASC Lab Vision Drone Guide](https://dasc-lab.github.io/robot-framework/vision_drone/vision_drone_guide.html) to setup ground station on your favorite laptop
