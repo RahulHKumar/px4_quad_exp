@@ -5,8 +5,9 @@ Environmental Setup for Quadrotors Using PX4, ROS2 Humble, NvBlox, and VICON MoC
 ## Table of Contents
 - [Hardware Setup](#hardware-setup)
 - [Environment Setup](#environment-setup)
-- [Algorithms](#algorithms)
-- [Examples using Isaac Lab](#examples-using-isaac-lab)
+- [Precautions before flying](#precautions-before-flying)
+- [Ground station usage tips](#ground-station-usage-tips)
+- [Integration with Safe Control and Safe Exploration](#integration-with-safe-control-and-safe-exploration)
   
 ## Hardware Setup
 
@@ -84,4 +85,15 @@ Environmental Setup for Quadrotors Using PX4, ROS2 Humble, NvBlox, and VICON MoC
   RUN python3 -m pip install --upgrade \
         "packaging>=24"
   ```
-- Follow the [DASC Lab Vision Drone Guide](https://dasc-lab.github.io/robot-framework/vision_drone/vision_drone_guide.html) to setup ground station on your favorite laptop
+- Follow the [DASC Lab Vision Drone Guide](https://dasc-lab.github.io/robot-framework/vision_drone/vision_drone_guide.html) to setup ground station on your favorite laptop.
+
+
+## Precautions before flying
+
+After following the above steps correctly, you are ready to fly and perform some prelimnary tests. You can make use of the following tips so that you do not crash the autonomus drone as much as I did :p 
+
+## Ground station usage tips
+
+
+## Integration with Safe Control and Safe Exploration
+
