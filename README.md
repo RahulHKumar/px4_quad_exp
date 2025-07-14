@@ -91,9 +91,58 @@ Environmental Setup for Quadrotors Using PX4, ROS2 Humble, NvBlox, and VICON MoC
 ## Precautions before flying
 
 After following the above steps correctly, you are ready to fly and perform some prelimnary tests. You can make use of the following tips so that you do not crash the autonomus drone as much as I did :p 
+- Make sure all vicon cameras are on and the flight space is calibrated.
+- Ensure you are giving goals wrt the right coordinates (z is flipped in both DASC lab spaces)
+- Make sure motors are fixed after checking the directionality correctly.
+- Ensure the vicon markers and motors both do not move on vibration.
+- Recheck all PX4 parameters correctly.
+- After turning the system on,move the drone with your hand to check if EKF and Vicon localization match with good speed.
+- Make sure cables are not danglong out and might touch motors on spinning.
+- Use ground station RViz markers to check if the setpoints are within the flight space bounds.
+- First do a in-place takeoff test with very low QUAD_M (eg: 0.1). This should not fly but remain stable in place.
+- Repeat the same test with very small z-setpoint and test takeoff. (PS: Never give z-setpoint lower than the current z during takeoff)
+- Fly the drone manually using groundstation control before autonmous flight.
 
 ## Ground station usage tips
 
+- Clone your own version of groundstation: [rover_groundstation_ros2_jumstart.git](https://git@github.com:dasc-lab/rover_groundstation_ros2_jumpstart.git) and build using instructions on [DASC Lab Vision Drone Guide](https://dasc-lab.github.io/robot-framework/vision_drone/vision_drone_guide.html), in order to be able to do customizations in the future.
+- On successflly building the groundstation, follow instructions from [px4_ugv_exp]((https://github.com/tkkim-robot/px4_ugv_exp/tree/main)) to turn on all systems:
+  - 1. Turn on the VICON.
+    - Turn two VICON computers and one switch on.
+    - On system tab, reboot the red cameras 
+    - On object tab, de-select "auto enable" and click "track".
+    - Press 'alt' and drag markers of interset, and type the name (default: px4_1) and done. 
+    - Right click 'px4_1' on object tab, click "save object" and make it "shared". 
+  - 2. Turn on the rover with Orin and charged battery, put on markers on the plate (to be asymmetric).
+  - 3. Place the indicator to the battery (left sided), and change the beep threshold to 3.70. (11.1v is the lowest voltage to stop, it's charged up to 12.x v.)
+  - 4. SSH into the Orin with VSCode.
+  - 5. Setup ground station with random laptop.
+    - ``` cd hardik/rover_groundstation_ros2_jumpstart```
+    - ``` xhost + ```
+    - ``` docker compose up -d ```
+    - ``` docker exec -it rover_groundstation_ros2_jumpstart-gs-1 bash```
+    - ``` (in the docker) ROS_DOMAIN_ID=4 ros2 launch ground_station_launch  gs.launch.py ```
+
+  - 6. Setup Orin with SSH in VSCODE
+    - ``` docker start isaac-(...) ```
+    - ``` docker exec -it isaac-(...) bash```
+    - ``` (in the docker) cd colcon_ws && source install/setup.bash```
+    - ``` sudo chmod 777 /dev/ttyUSB1 ```
+    - ``` ROS_DOMAIN_ID=7 ros2 launch all_launch px4.launch.py ```
+    - Then, the RVIZ in groundstation turns green to "VALID"
+- After following the abive instructions, your groundstation view should loom something like the picture below (PS: I am also running the realsense example from NvBlox)
+  <p align="center">
+    <img src="https://github.com/RahulHKumar/px4_quad_exp/blob/main/media/gnd_station_view.png" alt="Title Image" width="500"/>
+  </p>
+  Depending on whether you choose Global Frame to be odom or vicon_world you will either see the map or setpoint/current position of drone respectively.
+- I would suggest start the flight with ```vicon_world``` fixed frame and switch to ```odom``` or ```map``` after you are confident that the drone is flying in a stable fashion.
+- Since the autonomous flying process for the quad is complicated and prone to crashes, I would like to reccomend a terminal structure as folows:
+  <p align="center">
+    <img src="https://github.com/RahulHKumar/px4_quad_exp/blob/main/media/terminal_structure.png" alt="Title Image" width="500"/>
+  </p>
+- I liked to keep the one-time run processes lime ```px4.launch.py``` and ```realsense_example.launch.py``` in the terminals below. The latter can be hidden as well as it does not need monitoring after the flight begins.
+- I liked keeping the ```publish_u_quad.py``` and either ```publish_tracking_circle.py``` or ```ros_exploration_pub.py``` on the bigger terminals occupying most of the screen, depending on whether I am running safe_control or safe_explorartion scripts. This is due to the fact that the logs on these scripts can indicate very well what the status of the flight is and if anything is going wrong. In a smaller terminal anywhere, run a rosbag record as this will be useful in debugging.
 
 ## Integration with Safe Control and Safe Exploration
 
+Simply clone the submodules of ```safe_control``` or ```seamlis``` into the scripts folder in ```dasc_ros_utils``` and add them into the CMakeList according to the file paths, and ```colcon build```. This will ensure seamless integration of any type of safe autonomous control repository into the architecture that runs quadrotor experiments.
